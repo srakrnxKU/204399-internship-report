@@ -24,3 +24,5 @@ for index, row in entries.iterrows():
         full_image_path = os.path.join(file_path, matching_files[0])
         print(entry_format.format(src=full_image_path, caption="ภาพการฝึกงานวันที่ {}".format(
             pretty_date), description=row['description']))
+    else:
+        print("% Image for {} not found.".format(pretty_date))
