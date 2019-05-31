@@ -8,7 +8,7 @@ file_path = 'images'
 entries = pd.read_csv('diary.csv')
 images = os.listdir(file_path)
 entry_format = '''
-\\subsection*{{{caption}}}
+\\subsection*{{{section}}}
 \\begin{{figure}}[h]
     \\centering
     \\includegraphics[width=0.5\\textwidth]{{{src}}}
@@ -27,8 +27,8 @@ for index, row in entries.iterrows():
     if len(matching_files) > 0:
         full_image_path = os.path.join(
             this_directory, file_path, matching_files[0])
-        f.write(entry_format.format(src=full_image_path, caption="ภาพการฝึกงานวันที่ {}".format(
-            pretty_date), description=row['description']))
+        f.write(entry_format.format(src=full_image_path, section="ภาพการฝึกงานวันที่ {}".format(
+            pretty_date), caption=row['caption'], description=row['description']))
     else:
         f.write("% Image for {} not found.\n".format(pretty_date))
 
