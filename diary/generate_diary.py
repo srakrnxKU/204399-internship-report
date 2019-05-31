@@ -27,6 +27,6 @@ for index, row in entries.iterrows():
         f.write(entry_format.format(src=full_image_path, caption="ภาพการฝึกงานวันที่ {}".format(
             pretty_date), description=row['description']))
     else:
-        f.write("% Image for {} not found.".format(pretty_date))
+        f.write("% Image for {} not found.\n".format(pretty_date))
 
 f.close()
