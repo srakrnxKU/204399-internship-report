@@ -7,6 +7,7 @@ file_path = 'images'
 
 entries = pd.read_csv('diary.csv')
 images = os.listdir(file_path)
+print(images)
 picture_entry = '''
 \\section*{{{section}}}
 \\begin{{figure}}[h]
@@ -19,8 +20,9 @@ picture_entry = '''
 img = open("diaryimgs.tex", "w")
 
 for index, row in entries.iterrows():
-    date = "{:02d}{:02d}{}".format(row['y'], row['m'], row['d'])
+    date = "{}{:02d}{:02d}".format(row['y'], row['m'], row['d'])
     pretty_date = "{}/{}/{}".format(row['d'], row['m'], row['y']+543)
+    print(date)
     matching_files = [i for i in images if date in i]
     if len(matching_files) > 0:
         full_image_path = os.path.join(
