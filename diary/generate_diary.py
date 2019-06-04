@@ -7,18 +7,16 @@ file_path = 'images'
 
 entries = pd.read_csv('diary.csv')
 images = os.listdir(file_path)
-entry_format = '''
-\\subsection*{{{section}}}
+picture_entry = '''
+\\section*{{{section}}}
 \\begin{{figure}}[h]
     \\centering
     \\includegraphics[width=0.5\\textwidth]{{{src}}}
     \\caption{{{caption}}}
 \\end{{figure}}
-
-{description}
 '''
 
-f = open("diary.tex", "w")
+img = open("diaryimgs.tex", "w")
 
 for index, row in entries.iterrows():
     date = "{:02d}{:02d}{}".format(row['y'], row['m'], row['d'])
@@ -27,9 +25,9 @@ for index, row in entries.iterrows():
     if len(matching_files) > 0:
         full_image_path = os.path.join(
             this_directory, file_path, matching_files[0])
-        f.write(entry_format.format(src=full_image_path, section="ภาพการฝึกงานวันที่ {}".format(
-            pretty_date), caption=row['caption'], description=row['description']))
+        img.write(picture_entry.format(src=full_image_path, section="ภาพการฝึกงานวันที่ {}".format(
+            pretty_date), caption=row['caption']))
     else:
-        f.write("% Image for {} not found.\n".format(pretty_date))
+        img.write("% Image for {} not found.\n".format(pretty_date))
 
-f.close()
+img.close()
