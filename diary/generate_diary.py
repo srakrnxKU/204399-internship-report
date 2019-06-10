@@ -10,7 +10,7 @@ images = os.listdir(file_path)
 print(images)
 picture_entry = '''
 \\section*{{{section}}}
-\\begin{{figure}}[h]
+\\begin{{figure}}[H]
     \\centering
     \\includegraphics[width=0.5\\textwidth]{{{src}}}
     \\caption{{{caption}}}
