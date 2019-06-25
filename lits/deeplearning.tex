@@ -42,8 +42,7 @@ $$
         10000 & 200000 & -7000
     \end{bmatrix}
 $$
-$b$ เป็นไบแอส, จะสมมติให้ $b = 500000$ (ราคาตั้งต้นของบ้าน 0 ห้องนอน พื้นที่ 0 ตารางวา อายุ 0 ปี) 
-และ $f(x) = x$ กล่าวคือเป็นฟังก์ชั่นเชิงเส้น
+$b$ เป็นไบแอส, จะสมมติให้ $b = 0$ (กล่าวโดยละเอียด ในที่นี้ $b$ คือราคาตั้งต้นของบ้าน 0 ห้องนอน พื้นที่ 0 ตารางวา อายุ 0 ปี) และ $f(x) = x$ กล่าวคือเป็นฟังก์ชั่นเชิงเส้น
 
 หากต้องการคาดเดาราคาบ้านที่มี 3 ห้องนอน เนื้อที่ 100 ตารางวา และมีอายุ 7 ปี จะสามารถเขียนเวกเตอร์ $P$ ได้เป็น
 
@@ -86,11 +85,11 @@ $$
         \end{bmatrix}$$
     \item กำหนดค่าของไบแอส $b = -2$
     \item กำหนดฟังก์ชั่น $f(x)$ เป็น step function กล่าวคือ
-    $$ f(x) = 
-    \begin{cases} 
-        0 & \textrm{เมื่อ } x < 0 \\
-        1 & \textrm{เมื่อ } x\geq 0
-    \end{cases}
+    $$
+        f(x) = \begin{cases}
+            1; & x \geq 0\\
+            0; & \textrm{ในกรณีอื่น}
+        \end{cases}
     $$
 \end{itemize}
 และการสร้าง OR gate สามารถทำได้ในลักษณะเดียวกันโดยเปลี่ยน $b$ เป็น $b = -1$
@@ -139,6 +138,7 @@ $$
         \node[annot,above of=HA-1, node distance=1cm] (hla) {ชั้นซ่อน 1};
         \node[annot,above of=HB-1, node distance=1cm] (hla) {ชั้นซ่อน 2};
         \node[annot,above of=O-1, node distance=1cm] (hlb) {ชั้นส่งออก (ชั้นที่ 3)};
+
     \end{tikzpicture}
     \caption{เปอร์เซปตรอนแบบหลายชั้น}
     \label{mlp}
@@ -156,4 +156,41 @@ $$
 \end{equation*}
 เมื่อจำนวนเปอร์เซปตรอนในชั้นที่ $k$ เขียนแทนด้วย $n_k$
 
-ยกตัวอย่างเช่น เราจะสามารถสร้างประตูสัญญาณ XOR (XOR gate) ได้จากเปอร์เซปตรอนแบบหลายชั้นดังนี้
+ยกตัวอย่างเช่น เราจะสามารถสร้างประตูสัญญาณ XOR (XOR gate) ได้จากเปอร์เซปตรอนแบบหลายชั้นดังแสดงในรูปที่ \ref{xor-mlp} โดยเลขในแต่ละเปอร์เซปตรอนแทนค่าไบแอส ($b$) และเลขบนเส้นเชื่อมแทนค่าน้ำหนัก ($w$) และกำหนดให้ฟังก์ชั่นกระตุ้น $f$ เป็นฟังก์ชั่นขั้นบันได (step function) กล่าวคือ
+\begin{equation*}
+    f(x) =
+    \begin{cases}
+        1; & x \geq 0\\
+        0; & \textrm{ในกรณีอื่น}
+    \end{cases}
+\end{equation*}
+เปอร์เซปตรอนดังกล่าว เมื่อรับค่า $A$ และ $B$ เป็น 0 หรือ 1 จะส่งออกค่า $A \oplus B$
+
+\begin{figure}
+    \def\layersep{2.5cm}
+    \centering
+    \begin{tikzpicture}[<-, draw=black!70, node distance=\layersep]
+        \tikzstyle{edge}=[->,fill=white]
+        \tikzstyle{neuron}=[circle,draw=black!100,minimum size=25pt, outer sep=3pt]
+        \tikzstyle{annot}=[text width=5em, text centered]
+    
+        \node[neuron, pin=left:$A$] (I-1) at (0,0 cm) {$A$};
+        \node[neuron, pin=left:$B$] (I-2) at (0,-2 cm) {$B$};
+    
+        \node[neuron] (HA-1) at (\layersep,-0 cm) {$-2$};
+        \node[neuron] (HA-2) at (\layersep,-2 cm) {$-2$};
+
+        \node[neuron] (O) at (2*\layersep,-1 cm) {$-1$};
+
+        \path[edge]
+            (I-1) edge node {$-1$} (HA-1)
+            (I-1) edge node[very near end] {$1$} (HA-2)
+            (I-2) edge node[very near end] {$1$} (HA-1)
+            (I-2) edge node {$-1$} (HA-2)
+            (HA-1) edge node {$1$} (O)
+            (HA-2) edge node {$1$} (O)
+        ;
+    \end{tikzpicture}
+    \caption{เปอร์เซปตรอนแบบหลายชั้นซึ่งทำหน้าที่เป็นประตูสัญญาณ XOR}
+    \label{xor-mlp}
+\end{figure}
