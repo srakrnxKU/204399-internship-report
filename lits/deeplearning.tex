@@ -5,8 +5,10 @@
 
 \subsection{เปอร์เซปตรอน (Perceptron)}
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{images/perceptron.pdf}
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/perceptron.pdf}
     \caption{เปอร์เซปตรอน}
+    \label{perceptron}
 \end{figure}
 เปอร์เซปตรอน (Perceptron) เป็นแบบจำลองทางคณิตศาสตร์ของเซลล์สมองหนึ่งเซลล์ โดยมีคุณสมบัติดังนี้
 
@@ -20,7 +22,7 @@
 $$ y = f\left(W^TX+b\right) $$
 
 เมื่อ $W$ และ $X$ เป็นเวกเตอร์ขนาด $1 \times n$ (โดย $n$ เป็นจำนวนข้อมูลรับเข้า), $b$ เป็นค่าสัมประสิทธิ์คงที่ (ไบแอส: bias)
-และ $f$ เป็นฟังก์ชั่นกระตุ้น (activation function)
+และ $f$ เป็นฟังก์ชั่นกระตุ้น (activation function) ซึ่งอาจเขียนรูปร่างของเปอร์เซปตรอนให้มีลักษณะรูปคล้ายเซลล์สมองได้ในลักษณะรูปที่ \ref{perceptron}
 
 ยกตัวอย่างการใช้เปอร์เซปตรอนในการแก้ปัญหาอย่างง่ายได้ในที่นี้
 
@@ -95,4 +97,63 @@ $$
 
 \subsection{เปอร์เซปตรอนแบบหลายชั้น (Multi Layer Perceptron)}
 
-เราอาจสังเกตว่าเปอร์เซพตรอนหนึ่งตัวนั้นทำหน้าที่ได้เพียนแยก (classify) หรือถดถอย (regress) ปัญหาที่เป็นปัญหาเชิงเส้น (linear problems) ได้เท่านั้น อย่างไนก็ตามหากเรากำหนดให้ฟังก์ชั่น $f$ เป็นฟังก์ชั่นที่ไม่ใช่ฟังก์ชั่นเส้นตรงแล้ว เราอาจสร้าง\textbf{เปอร์เซปตรอนแบบหลายชั้น} (Multi Layer Perceptron) ขึ้นมาได้โดยมีลักษณะดังนี้
+เราอาจสังเกตว่าเปอร์เซพตรอนหนึ่งตัวนั้นทำหน้าที่ได้เพียนแยก (classify) หรือถดถอย (regress) ปัญหาที่เป็นปัญหาเชิงเส้น (linear problems) ได้เท่านั้น อย่างไนก็ตามหากเรากำหนดให้ฟังก์ชั่น $f$ เป็นฟังก์ชั่นที่ไม่ใช่ฟังก์ชั่นเส้นตรงแล้ว เราอาจสร้าง\textbf{เปอร์เซปตรอนแบบหลายชั้น} (Multi Layer Perceptron) ขึ้นมาได้โดยมีลักษณะดังรูปที่ \ref{mlp}
+
+\begin{figure}
+    \centering
+    \def\layersep{2.5cm}
+    \begin{tikzpicture}[->,draw=black!70, node distance=\layersep]
+        \tikzstyle{every pin edge}=[<-,shorten <=1pt]
+        \tikzstyle{neuron}=[circle,draw=black!100,minimum size=17pt, outer sep=3pt]
+        \tikzstyle{annot}=[text width=5em, text centered]
+    
+        \foreach \name / \y in {1,...,4}
+            \node[neuron, pin=left:ข้อมูลรับเข้า \y] (I-\name) at (0,-\y) {};
+    
+        % Draw the hidden layer nodes
+        \foreach \name / \y in {1,...,5}
+            \path[yshift=0.5cm]
+                node[neuron] (HA-\name) at (\layersep,-\y cm) {};
+    
+        \foreach \name / \y in {1,...,5}
+            \path[yshift=0.5cm]
+                node[neuron] (HB-\name) at (2*\layersep,-\y cm) {};
+
+        \foreach \name / \y in {1,...,3}
+            \path[yshift=-0.5cm]
+                node[neuron] (O-\name) at (3*\layersep,-\y cm) {};
+    
+        \foreach \source in {1,...,4}
+            \foreach \dest in {1,...,5}
+                \path (I-\source) edge (HA-\dest);
+    
+        \foreach \source in {1,...,5}
+            \foreach \dest in {1,...,5}
+                \path (HA-\source) edge (HB-\dest);
+
+        \foreach \source in {1,...,5}
+            \foreach \dest in {1,...,3}
+                \path (HB-\source) edge (O-\dest);
+
+        \node[annot,above of=I-1, node distance=1cm] (hla) {ชั้นรับเข้า (ชั้นที่ 0)};
+        \node[annot,above of=HA-1, node distance=1cm] (hla) {ชั้นซ่อน 1};
+        \node[annot,above of=HB-1, node distance=1cm] (hla) {ชั้นซ่อน 2};
+        \node[annot,above of=O-1, node distance=1cm] (hlb) {ชั้นส่งออก (ชั้นที่ 3)};
+    \end{tikzpicture}
+    \caption{เปอร์เซปตรอนแบบหลายชั้น}
+    \label{mlp}
+\end{figure}
+
+เราอาจเขียนแทนน้ำหนักของโครงข่ายจากเปอร์เซปตรอนชั้นที่ $i$ ไปยังชั้นที่ $j$ ($j=i+1$) ได้เป็น
+\begin{equation*}
+    \boldsymbol{W}_{ij} = 
+    \begin{bmatrix}
+        w_{11} & w_{21} & \dots & w_{n_{i}1}\\
+        w_{12} & w_{22} & \dots & w_{n_{i}2}\\
+        \vdots & \vdots & \ddots & \vdots\\
+        w_{1n_j} & w_{2n_j} & \dots & w_{n_jn_i}
+    \end{bmatrix}
+\end{equation*}
+เมื่อจำนวนเปอร์เซปตรอนในชั้นที่ $k$ เขียนแทนด้วย $n_k$
+
+ยกตัวอย่างเช่น เราจะสามารถสร้างประตูสัญญาณ XOR (XOR gate) ได้จากเปอร์เซปตรอนแบบหลายชั้นดังนี้
