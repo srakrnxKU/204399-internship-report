@@ -271,3 +271,5 @@ TSWLatexianTemp*
 *.glstex
 
 # End of https://www.gitignore.io/api/tex
+
+# Closed source I'll say
