@@ -1,9 +1,7 @@
-% !TEX program = xelatex
-
 \documentclass[16pt,a4]{internshipreport}
 
 \usepackage{lipsum}  
-\usepackage[numbib]{tocbibind}
+\usepackage[nottoc]{tocbibind}
 \usepackage{appendix}
 \usepackage{float}
 \usepackage{wrapfig}
@@ -16,6 +14,7 @@
 \usepackage{comment}
 \usepackage{soul}
 \usepackage{environ}
+\usepackage{cite}
 \usetikzlibrary{backgrounds}
 
 \NewEnviron{redacted}{
@@ -154,6 +153,9 @@ VISTEC มุ่งเน้นการจัดการศึกษาด้�
 \chapter{ผลลัพธ์และการวิเคราะห์ผล}
 
 \chapter{บทสรุป}
+
+\bibliographystyle{ieeetr}
+\bibliography{citations}
 
 \begin{appendices}
 \chapter{บันทึกประจำวัน}
