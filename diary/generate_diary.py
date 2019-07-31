@@ -12,7 +12,7 @@ picture_entry = '''
 \\section*{{{section}}}
 \\begin{{figure}}[H]
     \\centering
-    \\includegraphics[width=0.5\\textwidth]{{{src}}}
+    \\includegraphics[width=0.55\\textwidth]{{{src}}}
     \\caption{{{caption}}}
 \\end{{figure}}
 '''
